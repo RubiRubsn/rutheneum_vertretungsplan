@@ -1,21 +1,46 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { createBottomTabNavigator, createAppContainer, createStackNavigator  } from 'react-navigation';
+import { Ionicons } from '@expo/vector-icons';
+import { settingsScreen } from './components/einstellungen.js';
+import { homeScreen } from './components/homescreen.js';
 
-export default class App extends React.Component {
-  render() {
-    return (
-      <View style={styles.container}>
-        <Text>Open up App.js to start working on your app!</Text>
-      </View>
-    );
+const getTabBarIcon = (navigation, focused, tintColor) => {
+  const { routeName } = navigation.state;
+  let IconComponent = Ionicons;
+  let iconName;
+  if (routeName === 'Home') {
+    iconName = `ios-home${focused ? '' : ''}`;
+  } else if (routeName === 'Einstellungen') {
+    iconName = `ios-construct${focused ? '' : ''}`;
   }
-}
+  /*else if (routeName === 'Stundenplan')  {
+    iconName = `ios-clipboard${focused ? '' : ''}`;
+  }*/
+  return <IconComponent name={iconName} size={25} color={tintColor} />;
+};
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+export default createAppContainer(
+  
+  createBottomTabNavigator(
+    {
+      Home: { screen: homeScreen },
+      Einstellungen: { screen: createStackNavigator({
+        Einstellung2: settingsScreen,
+      })
+        },
+    },
+    {
+      defaultNavigationOptions: ({ navigation }) => ({
+        tabBarIcon: ({ focused, tintColor }) =>
+          getTabBarIcon(navigation, focused, tintColor),
+      }),
+      tabBarOptions: {
+        activeTintColor: 'black' ,
+        inactiveTintColor: 'gray',
+      },
+      
+    },
+   
+  ),
+
+);

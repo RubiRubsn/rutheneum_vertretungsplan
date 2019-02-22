@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "rutheneum_vertretungsplan",
-    "slug": "de.rutheneum-vertretungsplan",
+    "slug": "rutheneum-vertretungsplan",
     "privacy": "public",
     "sdkVersion": "32.0.0",
     "platforms": [
