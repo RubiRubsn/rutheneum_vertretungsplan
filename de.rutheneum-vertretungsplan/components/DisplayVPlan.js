@@ -4,35 +4,32 @@ import { Text } from 'react-native-elements';
 
 export class DisplayVPlan extends React.Component {
 
-    state = {
-        Allgemein: '',
-        Plan: []
-    };
-
-    async componentDidMount() {
-        try
-        {
-            await this.updateState();
+    constructor() {
+        super();
+        this.state = {
+            Allgemein: undefined,
+            Plan: []
         }
-        catch{}
+        this.updateState = this.updateState.bind(this);
     }
 
-    render(){
-        this.updateState();
-        return (
-            <View>
-                <Text>{this.state.Allgemein}</Text>
-            </View>
-        );
+    componentWillReceiveProps(newProps) {
+        if (newProps.vplanid !== this.props.vplanid)
+            this.updateState();
     }
 
-    async updateState(){
-        const fetched = await fetch(`http://gymnasium-rutheneum.de/plan/${this.props.vplanid}`);
-        const jsonData = await fetched.json();
-
-        this.setState({
-            Allgemein: jsonData.Allgemein,
-            Plan: jsonData.Plan
+    updateState(){
+        console.log('updating state of displayvplan', this.props.vplanid);
+        fetch(`http://gymnasium-rutheneum.de/plan/${this.props.vplanid}`)
+        .then(fetched => fetched.json())
+        .then(jsondata => {
+            this.setState(jsondata);
         });
+    }
+
+    render() {
+        return (<View>
+            <Text>{this.state.Allgemein ? "Loading..." : this.state.Allgemein}</Text>
+        </View>);
     }
 }
