@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, ScrollView, AsyncStorage } from 'react-native';
+import { View, SectionList, ScrollView, AsyncStorage } from 'react-native';
 import { Text } from 'react-native-elements';
 
 export class DisplayVPlan extends React.Component {
@@ -21,7 +21,17 @@ export class DisplayVPlan extends React.Component {
         this.updateState();
         return (
             <View>
-                <Text>{this.state.Allgemein}</Text>
+                <Text margin='20px'>{this.state.Allgemein}</Text>
+                <SectionList sections={this.state.Plan.map(lesson => ({ title: `${lesson.StundenNummer}. Stunde`, data: lesson.Content }))}
+                        renderItem={({item,index,section}) => (
+                            <View key={index}>
+                                <Text>{item.Kurs}</Text>
+                                <Text>{item.Details}</Text>
+                            </View>
+                        )}
+                        renderSectionHeader={item => (<Text>{item.section.title}</Text>)}
+                        keyExtractor={(item, index) => item + index}
+                />
             </View>
         );
     }
