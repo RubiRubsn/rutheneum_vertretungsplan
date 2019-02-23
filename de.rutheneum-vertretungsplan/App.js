@@ -3,6 +3,9 @@ import { createBottomTabNavigator, createAppContainer, createStackNavigator  } f
 import { Ionicons } from '@expo/vector-icons';
 import { settingsScreen } from './components/einstellungen.js';
 import { homeScreen } from './components/homescreen.js';
+import { KursScreen } from './components/Einstellungen/KursEinstellungen.js'
+import { UeberScreen } from './components/Einstellungen/ueber.js'
+import { StundenScreen } from './components/StundenScreen.js';
 
 const getTabBarIcon = (navigation, focused, tintColor) => {
   const { routeName } = navigation.state;
@@ -13,9 +16,9 @@ const getTabBarIcon = (navigation, focused, tintColor) => {
   } else if (routeName === 'Einstellungen') {
     iconName = `ios-construct${focused ? '' : ''}`;
   }
-  /*else if (routeName === 'Stundenplan')  {
+  else if (routeName === 'Stundenplan')  {
     iconName = `ios-clipboard${focused ? '' : ''}`;
-  }*/
+  }
   return <IconComponent name={iconName} size={25} color={tintColor} />;
 };
 
@@ -24,8 +27,11 @@ export default createAppContainer(
   createBottomTabNavigator(
     {
       Home: { screen: homeScreen },
+      Stundenplan: {screen: StundenScreen},
       Einstellungen: { screen: createStackNavigator({
         Einstellung2: settingsScreen,
+        Über: UeberScreen,
+        Kurse:KursScreen,
       })
         },
     },
@@ -35,8 +41,10 @@ export default createAppContainer(
           getTabBarIcon(navigation, focused, tintColor),
       }),
       tabBarOptions: {
-        activeTintColor: 'black' ,
-        inactiveTintColor: 'gray',
+        activeTintColor: '#dd6422' ,
+        inactiveTintColor: '#999999',
+        activeBackgroundColor: "white",
+        inactiveBackgroundColor: "white"
       },
       
     },

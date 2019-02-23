@@ -4,10 +4,14 @@
     "slug": "rutheneum-vertretungsplan",
     "privacy": "public",
     "sdkVersion": "32.0.0",
+    
     "platforms": [
       "ios",
       "android"
     ],
+    "android": {
+      "package": "com.rutheneum.vplan"
+    },
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/Square_88x88.png",
@@ -24,6 +28,7 @@
     ],
     "ios": {
       "supportsTablet": true
-    }
+    },
+    "description": ""
   }
 }
