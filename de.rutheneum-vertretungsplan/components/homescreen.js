@@ -1,10 +1,22 @@
 import React from 'react';
 import { View, ScrollView, AsyncStorage } from 'react-native';
 import { Text, Header } from 'react-native-elements';
+import { Provider as PaperProvider, DefaultTheme } from 'react-native-paper';
 import { DisplayVPlan } from './DisplayVPlan';
 
 
+const theme = {
+    ...DefaultTheme,
+    dark: true,
+    roundness: 2,
+    colors: {
+      ...DefaultTheme.colors,
+      primary: '#3498db',
+      accent: '#f1c40f',
+    }
+  };
 export class homeScreen extends React.Component {
+
 
     constructor() {
         super();
@@ -14,15 +26,18 @@ export class homeScreen extends React.Component {
     }
 
     async componentDidMount() {
-        const fetched = await fetch('http://rutheneumapi2.herokuapp.com/list/30');
+        const fetched = await fetch('https://rutheneumapi2.herokuapp.com/list/30');
         const jsonData = await fetched.json();
         this.setState({
             InfoList: jsonData
         });
     }
 
+
     render() {
         return (
+            <PaperProvider theme={theme}>
+    
             < View style={{ flex: 1, backgroundColor: "white" }} >
 
                 <Header
@@ -55,7 +70,10 @@ export class homeScreen extends React.Component {
                     </DisplayVPlan>
                     
                 </ScrollView>
+               
+                
             </View>
+            </PaperProvider>
         )
     }
 }
