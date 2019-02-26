@@ -10,9 +10,9 @@
     ],
     "android": {
       "package": "com.rutheneum.vplan",
-      "versionCode": 4
+      "versionCode": 5
     },
-    "version": "1.0.4",
+    "version": "1.0.5",
     "orientation": "portrait",
     "icon": "./assets/Logo.png",
     "splash": {

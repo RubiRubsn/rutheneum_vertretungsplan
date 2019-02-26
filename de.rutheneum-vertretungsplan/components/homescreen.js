@@ -21,20 +21,24 @@ export class homeScreen extends React.Component {
     constructor() {
         super();
         this.state = {
-            InfoList: [300],
+            InfoList: [[1],[1],[1]],
+            VerID: 0,
         };
     }
 
     async componentDidMount() {
-        const fetched = await fetch('https://rutheneumapi2.herokuapp.com/list/30');
+        const fetched = await fetch('https://rutheneumapi2.herokuapp.com/list/3');
         const jsonData = await fetched.json();
         this.setState({
             InfoList: jsonData
         });
+        console.log(this.state.InfoList)
     }
 
 
     render() {
+
+
         return (
             <PaperProvider theme={theme}>
     
@@ -44,8 +48,21 @@ export class homeScreen extends React.Component {
                     containerStyle={{
                         backgroundColor: '#dd6422'
                     }}
+                    leftComponent={{ icon: 'arrow-back', color: '#fff', onPress: () => {
+                        if (this.state.VerID<3){
+                        this.setState({VerID: this.state.VerID+1})}
+                                }
+                            }
+                        }
+                        
+                    rightComponent={{ icon: 'arrow-forward', color: '#fff', onPress: () => {
+                        if (this.state.VerID>0){
+                        this.setState({VerID: this.state.VerID-1})}
+                                }
+                            }
+                        }
                     centerComponent={{
-                        text: 'Vertretungsplan vom',
+                        text: 'Vertretungsplan',
                         style: {
                             color: '#fff',
                             fontSize: 20
@@ -62,11 +79,11 @@ export class homeScreen extends React.Component {
                     textAlign: "center",
                     fontSize: 30
                 }}>
-                    {this.state.InfoList[0].Weekday} dem {this.state.InfoList[0].Date}
+                    {this.state.InfoList[this.state.VerID].Weekday}   {this.state.InfoList[this.state.VerID].Date}
                 </Text>
 
                 <ScrollView>
-                    <DisplayVPlan name="planDisplay" vplanid={this.state.InfoList[0].ID}>
+                    <DisplayVPlan name="planDisplay" vplanid={this.state.InfoList[this.state.VerID].ID}>
                     </DisplayVPlan>
                     
                 </ScrollView>
