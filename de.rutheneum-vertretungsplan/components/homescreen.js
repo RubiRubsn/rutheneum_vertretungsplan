@@ -1,46 +1,48 @@
 import React from 'react';
-import { View, ScrollView, AsyncStorage } from 'react-native';
+import { View, ScrollView, SectionList, AsyncStorage } from 'react-native';
 import { Text, Header } from 'react-native-elements';
-import { Provider as PaperProvider, DefaultTheme } from 'react-native-paper';
 import { DisplayVPlan } from './DisplayVPlan';
+import { PlanLaden } from './PlanLaden';
+import { IDLaden } from './IDLaden';
 
-
-const theme = {
-    ...DefaultTheme,
-    dark: true,
-    roundness: 2,
-    colors: {
-      ...DefaultTheme.colors,
-      primary: '#3498db',
-      accent: '#f1c40f',
-    }
-  };
 export class homeScreen extends React.Component {
 
-
-    constructor() {
-        super();
-        this.state = {
+    state = {
             InfoList: [[1],[1],[1]],
+            InfoList2: [],
             VerID: 0,
+            Allgemein: '',
+            Plan: [],
         };
-    }
+    
 
     async componentDidMount() {
-        const fetched = await fetch('https://rutheneumapi2.herokuapp.com/list/3');
-        const jsonData = await fetched.json();
-        this.setState({
-            InfoList: jsonData
+        var PlanID= await IDLaden();
+        var Plan1 = await PlanLaden(PlanID[0].ID);
+        var Plan2 = await PlanLaden(PlanID[1].ID);
+        
+        await this.setState({
+            Allgemein: await Plan1.Allgemein,
+            Plan: await PlanLaden(PlanID[0].ID).Plan
         });
-        console.log(this.state.InfoList)
+        console.log("InfoList2: ", PlanID[0].ID, "Das ist der PlanLOL: ", this.state.Allgemein);
+
     }
 
 
     render() {
 
 
-        return (
-            <PaperProvider theme={theme}>
+
+        return(
+            <View>
+                <Text>{this.state.Allgemein}</Text>
+            </View>
+        )
+
+
+
+    /*    return (
     
             < View style={{ flex: 1, backgroundColor: "white" }} >
 
@@ -83,14 +85,39 @@ export class homeScreen extends React.Component {
                 </Text>
 
                 <ScrollView>
-                    <DisplayVPlan name="planDisplay" vplanid={this.state.InfoList[this.state.VerID].ID}>
-                    </DisplayVPlan>
-                    
-                </ScrollView>
+                
+                <SectionList style={{backgroundColor: 'white'}} sections={this.state.Plan.map(lesson => ({ title: `${lesson.StundenNummer}. Stunde`, data: lesson.Content }))}
+                        renderItem={({item,index,section}) => (
+                            <View style={{ flex:1, flexDirection: "row" }} key={index}>
+                                
+                                    <View style={{ flex:1, flexDirection: "column" }}>
+                                        <Text>{item.Kurs}</Text>
+                                        <Divider style={{ height: 10, backgroundColor: 'white' }} />
+                                    </View>    
+                                    <View style={{ flex:1, flexDirection: "column" }}>
+                                        <Text >{item.Details}</Text>
+                                        <Divider style={{ height: 10, backgroundColor: 'white' }} />
+                                    </View>
+                                    
+                                
+                            </View>
+                        )}
+                        
+                        renderSectionHeader={item => (
+                            <View style={{ backgroundColor: '#d6d6d6' }}>
+                            <Divider style={{ height: 10, backgroundColor: 'white' }} />
+                            <Text style={{fontSize: 20}}>{item.section.title}</Text>
+                            <Divider style={{ height: 10, backgroundColor: 'white' }} />
+                            </View>
+                            )}
+                        keyExtractor={(item, index) => item + index}
+                        
+                />
+            </ScrollView>
                
                 
             </View>
-            </PaperProvider>
         )
+    */
     }
 }
