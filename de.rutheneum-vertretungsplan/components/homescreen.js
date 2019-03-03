@@ -1,18 +1,21 @@
 import React from 'react';
 import { View, ScrollView, SectionList, AsyncStorage } from 'react-native';
-import { Text, Header } from 'react-native-elements';
-import { DisplayVPlan } from './DisplayVPlan';
+import { Text, Header, Divider } from 'react-native-elements';
 import { PlanLaden } from './PlanLaden';
 import { IDLaden } from './IDLaden';
 
 export class homeScreen extends React.Component {
 
     state = {
-            InfoList: [[1],[1],[1]],
+            Infolist: [[1],[1],[1]],
             InfoList2: [],
             VerID: 0,
             Allgemein: '',
-            Plan: [],
+            Plan: [[{"Content":[{},{},],
+                  "StundenNummer": "Lade ..",
+                }]],
+                
+                
         };
     
 
@@ -20,29 +23,22 @@ export class homeScreen extends React.Component {
         var PlanID= await IDLaden();
         var Plan1 = await PlanLaden(PlanID[0].ID);
         var Plan2 = await PlanLaden(PlanID[1].ID);
+        var Plan3 = await PlanLaden(PlanID[2].ID);
+        var Plan4 = await PlanLaden(PlanID[3].ID);
         
         await this.setState({
+            Infolist: await PlanID,
             Allgemein: await Plan1.Allgemein,
-            Plan: await PlanLaden(PlanID[0].ID).Plan
+            Plan: [await Plan1.Plan, await Plan2.Plan, await Plan3.Plan, await Plan4.Plan]
         });
-        console.log("InfoList2: ", PlanID[0].ID, "Das ist der PlanLOL: ", this.state.Allgemein);
+        console.log("InfoList2: ", this.state.Infolist[0].Weekday, "Das ist der PlanLOL: ", this.state.Plan);
 
     }
 
 
     render() {
 
-
-
-        return(
-            <View>
-                <Text>{this.state.Allgemein}</Text>
-            </View>
-        )
-
-
-
-    /*    return (
+            return (
     
             < View style={{ flex: 1, backgroundColor: "white" }} >
 
@@ -81,12 +77,12 @@ export class homeScreen extends React.Component {
                     textAlign: "center",
                     fontSize: 30
                 }}>
-                    {this.state.InfoList[this.state.VerID].Weekday}   {this.state.InfoList[this.state.VerID].Date}
+                    {this.state.Infolist[this.state.VerID].Weekday}   {this.state.Infolist[this.state.VerID].Date}
                 </Text>
 
                 <ScrollView>
                 
-                <SectionList style={{backgroundColor: 'white'}} sections={this.state.Plan.map(lesson => ({ title: `${lesson.StundenNummer}. Stunde`, data: lesson.Content }))}
+                <SectionList style={{backgroundColor: 'white'}} sections={this.state.Plan[this.state.VerID].map(lesson => ({ title: `${lesson.StundenNummer}. Stunde`, data: lesson.Content }))}
                         renderItem={({item,index,section}) => (
                             <View style={{ flex:1, flexDirection: "row" }} key={index}>
                                 
@@ -118,6 +114,5 @@ export class homeScreen extends React.Component {
                 
             </View>
         )
-    */
     }
 }
