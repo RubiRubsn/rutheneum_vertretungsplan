@@ -6,6 +6,7 @@ import { homeScreen } from './components/homescreen.js';
 import { KursScreen } from './components/Einstellungen/KursEinstellungen.js'
 import { UeberScreen } from './components/Einstellungen/ueber.js'
 import { StundenScreen } from './components/StundenScreen.js';
+import { Benachrichtigung } from './components/Einstellungen/Benachrichtigung.js';
 
 const getTabBarIcon = (navigation, focused, tintColor) => {
   const { routeName } = navigation.state;
@@ -32,6 +33,7 @@ export default createAppContainer(
         Einstellung2: settingsScreen,
         Über: UeberScreen,
         Kurse:KursScreen,
+        Benachrichtigungen: Benachrichtigung
       })
         },
     },

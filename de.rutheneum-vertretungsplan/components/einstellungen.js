@@ -8,6 +8,10 @@ const list = [
         icon: 'book'
     },
     {
+        title: 'Benachrichtigungen',
+        icon: 'notifications'
+    },
+    {
         title: 'Über',
         icon: 'info'
     },

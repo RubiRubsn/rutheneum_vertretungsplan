@@ -2,10 +2,7 @@ import React from 'react';
 import {  View } from 'react-native';
 import { Header, Image } from 'react-native-elements';
 
-
-
 export class StundenScreen extends React.Component {
-
 
     render() {
       return (

@@ -11,13 +11,8 @@ export class homeScreen extends React.Component {
             InfoList2: [],
             VerID: 0,
             Allgemein: '',
-            Plan: [[{"Content":[{},{},],
-                  "StundenNummer": "Lade ..",
-                }]],
-                
-                
+            Plan: [[{"Content":[{},{},],"StundenNummer": "Lade ..",}]],         
         };
-    
 
     async componentDidMount() {
         var PlanID= await IDLaden();
@@ -32,14 +27,10 @@ export class homeScreen extends React.Component {
             Plan: [await Plan1.Plan, await Plan2.Plan, await Plan3.Plan, await Plan4.Plan]
         });
         console.log("InfoList2: ", this.state.Infolist[0].Weekday, "Das ist der PlanLOL: ", this.state.Plan);
-
     }
 
-
     render() {
-
             return (
-    
             < View style={{ flex: 1, backgroundColor: "white" }} >
 
                 <Header
@@ -59,17 +50,20 @@ export class homeScreen extends React.Component {
                                 }
                             }
                         }
+
                     centerComponent={{
                         text: 'Vertretungsplan',
                         style: {
                             color: '#fff',
                             fontSize: 20
+                                }
+                            }
                         }
-                    }}
                     containerStyle={{
                         backgroundColor: '#dd6422',
                         height: 80
-                    }}
+                            }
+                        }
                 />
 
                 <Text style={{
@@ -81,7 +75,6 @@ export class homeScreen extends React.Component {
                 </Text>
 
                 <ScrollView>
-                
                 <SectionList style={{backgroundColor: 'white'}} sections={this.state.Plan[this.state.VerID].map(lesson => ({ title: `${lesson.StundenNummer}. Stunde`, data: lesson.Content }))}
                         renderItem={({item,index,section}) => (
                             <View style={{ flex:1, flexDirection: "row" }} key={index}>
@@ -94,8 +87,6 @@ export class homeScreen extends React.Component {
                                         <Text >{item.Details}</Text>
                                         <Divider style={{ height: 10, backgroundColor: 'white' }} />
                                     </View>
-                                    
-                                
                             </View>
                         )}
                         
